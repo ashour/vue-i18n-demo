@@ -11,22 +11,22 @@ import numberFormats from "@/locales/number-formats"
 
 Vue.use(VueI18n)
 
-function loadLocaleMessages() {
-  const locales = require.context(
-    "./locales",
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i
-  )
-  const messages = {}
-  locales.keys().forEach(key => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
-    if (matched && matched.length > 1) {
-      const locale = matched[1]
-      messages[locale] = locales(key)
-    }
-  })
-  return messages
-}
+// function loadLocaleMessages() {
+//   const locales = require.context(
+//     "./locales",
+//     true,
+//     /[A-Za-z0-9-_,\s]+\.json$/i
+//   )
+//   const messages = {}
+//   locales.keys().forEach(key => {
+//     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
+//     if (matched && matched.length > 1) {
+//       const locale = matched[1]
+//       messages[locale] = locales(key)
+//     }
+//   })
+//   return messages
+// }
 
 function getStartingLocale() {
   const browserLocale = getBrowserLocale({ countryCodeOnly: true })
@@ -42,10 +42,42 @@ setDefaultChoiceIndexGet(VueI18n.prototype.getChoiceIndex)
 
 VueI18n.prototype.getChoiceIndex = getChoiceIndex
 
-export default new VueI18n({
-  locale: getStartingLocale(),
+const startingLocale = getStartingLocale()
+
+const i18n = new VueI18n({
+  locale: startingLocale,
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
-  messages: loadLocaleMessages(),
+  messages: {},
+  // messages: loadLocaleMessages()
   dateTimeFormats,
   numberFormats
 })
+
+const loadedLanguages = []
+
+export function loadLocaleMessagesAsync(locale) {
+  if (loadedLanguages.length > 0 && i18n.locale === locale) {
+    return Promise.resolve(locale)
+  }
+
+  // If the language was already loaded
+  if (loadedLanguages.includes(locale)) {
+    i18n.locale = locale
+    return Promise.resolve(locale)
+  }
+
+  // If the language hasn't been loaded yet
+  return import(
+    /* webpackChunkName: "locale-[request]" */ `@/locales/${locale}.json`
+  ).then(messages => {
+    i18n.setLocaleMessage(locale, messages.default)
+
+    loadedLanguages.push(locale)
+
+    i18n.locale = locale
+
+    return Promise.resolve(locale)
+  })
+}
+
+export default i18n
