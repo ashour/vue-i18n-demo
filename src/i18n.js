@@ -6,6 +6,8 @@ import {
   getChoiceIndex,
   setDefaultChoiceIndexGet
 } from "./util/i18n/choice-index-for-plural"
+import dateTimeFormats from "@/locales/date-time-formats"
+import numberFormats from "@/locales/number-formats"
 
 Vue.use(VueI18n)
 
@@ -43,5 +45,7 @@ VueI18n.prototype.getChoiceIndex = getChoiceIndex
 export default new VueI18n({
   locale: getStartingLocale(),
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
-  messages: loadLocaleMessages()
+  messages: loadLocaleMessages(),
+  dateTimeFormats,
+  numberFormats
 })
