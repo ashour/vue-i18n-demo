@@ -8,6 +8,8 @@
     </div>
 
     <div class="nav__end">
+      <p class="user-greeting">{{ $t("user_greeting", { name: "Adam" }) }}</p>
+
       <LocaleSwitcher />
     </div>
   </div>
@@ -47,5 +49,9 @@ export default {
   font-weight: bold;
   color: #fff;
   text-decoration: none;
+}
+
+.user-greeting {
+  margin-right: 1rem;
 }
 </style>

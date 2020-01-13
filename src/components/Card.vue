@@ -4,7 +4,11 @@
 
     <img :src="imgUrl" />
 
-    <p>Added {{ addedOn }}</p>
+    <div class="card__footer">
+      <p>Added {{ addedOn }}</p>
+
+      <p>{{$tc("card.likes", likes)}}</p>
+    </div>
   </div>
 </template>
 
@@ -14,7 +18,8 @@ export default {
     id: Number,
     title: String,
     imgUrl: String,
-    addedOn: String
+    addedOn: String,
+    likes: Number
   }
 }
 </script>
@@ -41,9 +46,17 @@ img {
   width: 100%;
 }
 
-p {
+.card__footer {
   text-align: center;
   margin: 0;
   padding: 0.5em;
+}
+
+p {
+  margin: 0;
+  font-size: 14px;
+}
+p:first-child {
+  margin-bottom: 0.5rem;
 }
 </style>

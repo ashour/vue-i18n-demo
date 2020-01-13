@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>International Gourmet Coffee</h1>
+    <h1 v-t="'app.title'" />
 
     <Cards />
   </div>

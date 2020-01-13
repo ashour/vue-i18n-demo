@@ -1,6 +1,14 @@
 {
+  "app": {
+    "title": "International Gourmet Coffee"
+  },
   "nav": {
     "home": "Home",
     "about": "About"
+  },
+  "user_greeting": "Hello, {name}",
+  "footer": "Built with Vue and Vue I18n{0}Powered by an excessive amount of coffee",
+  "card": {
+    "likes": "Nobody ❤️ this yet 😕 | {n} person ❤️ this | {n} people ❤️ this"
   }
 }
