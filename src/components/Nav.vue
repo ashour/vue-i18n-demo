@@ -56,3 +56,9 @@ export default {
   margin-right: 1rem;
 }
 </style>
+<style>
+[dir="rtl"] .user-greeting {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+</style>
