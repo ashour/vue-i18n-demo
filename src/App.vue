@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
-      <Nav v-on:localeChange="loadLocaleMessages" />
+      <Nav />
 
       <div class="container">
         <router-view />
@@ -16,33 +16,16 @@
 <script>
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
-import {
-  setDocumentDirectionPerLocale,
-  setDocumentTitle,
-  setDocumentLang
-} from "@/util/i18n/document"
-import { loadLocaleMessagesAsync } from "@/i18n"
+import EventBus from "@/EventBus"
+
 export default {
   data: () => ({
     isLoading: true
   }),
   mounted() {
-    this.loadLocaleMessages(this.$i18n.locale)
-  },
-  methods: {
-    loadLocaleMessages(locale) {
-      this.isLoading = true
+    EventBus.$on("i18n-load-start", () => (this.isLoading = true))
 
-      loadLocaleMessagesAsync(locale).then(() => {
-        setDocumentLang(locale)
-
-        setDocumentDirectionPerLocale(locale)
-
-        setDocumentTitle(this.$t("app.title"))
-
-        this.isLoading = false
-      })
-    }
+    EventBus.$on("i18n-load-complete", () => (this.isLoading = false))
   },
   components: { Nav, Footer }
 }

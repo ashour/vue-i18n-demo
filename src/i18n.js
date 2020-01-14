@@ -8,6 +8,7 @@ import {
 } from "./util/i18n/choice-index-for-plural"
 import dateTimeFormats from "@/locales/date-time-formats"
 import numberFormats from "@/locales/number-formats"
+import EventBus from "@/EventBus"
 
 Vue.use(VueI18n)
 
@@ -56,13 +57,17 @@ const i18n = new VueI18n({
 const loadedLanguages = []
 
 export function loadLocaleMessagesAsync(locale) {
+  EventBus.$emit("i18n-load-start")
+
   if (loadedLanguages.length > 0 && i18n.locale === locale) {
+    EventBus.$emit("i18n-load-complete")
     return Promise.resolve(locale)
   }
 
   // If the language was already loaded
   if (loadedLanguages.includes(locale)) {
     i18n.locale = locale
+    EventBus.$emit("i18n-load-complete")
     return Promise.resolve(locale)
   }
 
@@ -76,6 +81,7 @@ export function loadLocaleMessagesAsync(locale) {
 
     i18n.locale = locale
 
+    EventBus.$emit("i18n-load-complete")
     return Promise.resolve(locale)
   })
 }

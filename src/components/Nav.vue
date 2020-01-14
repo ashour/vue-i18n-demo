@@ -3,23 +3,24 @@
     <div class="nav__start">
       <img alt="Vue logo" src="../assets/logo-circle-sm.png" />
 
-      <router-link to="/">{{ $t("nav.home") }}</router-link>
-      <router-link to="/about">{{ $t("nav.about") }}</router-link>
+      <LocalizedLink to="/">{{ $t("nav.home") }}</LocalizedLink>
+      <LocalizedLink to="/about">{{ $t("nav.about") }}</LocalizedLink>
     </div>
 
     <div class="nav__end">
       <p class="user-greeting">{{ $t("user_greeting", { name: "Adam" }) }}</p>
 
-      <LocaleSwitcher v-on:change="$emit('localeChange', $event)" />
+      <LocaleSwitcher />
     </div>
   </div>
 </template>
 
 <script>
 import LocaleSwitcher from "@/components/LocaleSwitcher"
+import LocalizedLink from "@/components/LocalizedLink"
 
 export default {
-  components: { LocaleSwitcher }
+  components: { LocaleSwitcher, LocalizedLink }
 }
 </script>
 
